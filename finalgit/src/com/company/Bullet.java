@@ -14,48 +14,38 @@ public class Bullet extends Element {
     private int damage ;
     private boolean collided ;
     private BufferedImage bImage;
-    public enum bulletType{normal , frozen}
-    private static  bulletType bulletType;
-    public Bullet(int x , int y , bulletType bulletType) throws Exception {
+    public enum bulletType{NORMAL, FROZEN}
+    private   bulletType bType;
+    public Bullet(int x , int y , bulletType bType) throws Exception {
         setX(x);
         setY(y);
-        this.bulletType = bulletType;
+        this.bType = bType;
         setFields();
         collided = false;
     }
 
-    //getter
     public boolean isCollided() {
         return collided;
     }
 
-    //setter
     public void setCollided(boolean collided) {
         this.collided = collided;
     }
 
-    //getttr
     public Bullet.bulletType getType() {
-        return bulletType;
+        return bType;
     }
 
-    //setter
-    public void setType(Bullet.bulletType type) {
-        this.bulletType = type;
-    }
-
-    @Override
     protected void setFields() throws Exception {
-        if(bulletType == bulletType.normal){
+        if(bType== bulletType.NORMAL){
             this.damage = 30;
-            bImage = ImageIO.read(new File("images\\pea.png"));
-        }else if(bulletType == bulletType.frozen){
+            this.bImage = ImageIO.read(new File("images\\pea.png"));
+        }else if(bType == bulletType.FROZEN){
             this.damage = 35;
-            bImage = ImageIO.read(new File("images\\freezepea.png"));
-        }else throw new Exception(" No bullet type found !!!!");
+            this.bImage = ImageIO.read(new File("images\\freezepea.png"));
+        }
     }
 
-    //getter
     public int getDamage() {
         return damage;
     }
@@ -65,16 +55,13 @@ public class Bullet extends Element {
      * @return true if x of bullet is more than 1000
      */
     public boolean endOfFeild(){
-        if(this.getX() > 1000)return true;
-        else return false;
+        return this.getX() > 1000;
     }
 
-    //getter
     public Image getbImage() {
         return bImage;
     }
 
-    //setter
     public void setbImage(BufferedImage bImage) {
         this.bImage = bImage;
     }

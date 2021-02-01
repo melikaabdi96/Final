@@ -12,7 +12,6 @@ import java.io.IOException;
  */
 public class Sunflower extends Plant {
     private Sun sun = null ;
-
     public Sunflower(int x, int y ) throws IOException {
         setAlive(true);
         setX(x);
@@ -22,39 +21,41 @@ public class Sunflower extends Plant {
         setCost(50);
         setHealth(50);
         img = ImageIO.read(new File("images\\sunflower.png"));
-        setDarkSunflower();
+        setLightSunflower();
         setStartTime(System.currentTimeMillis());
-//        this.sound = new Sound("pacman_eatghost.wav");
     }
-
     //getter
     public int getCost(){
         return cost;
     }
-
     //setter
     public void setDyingSunflower(){
         image = new ImageIcon("images\\Gifs\\sun_flower_dying.gif").getImage();
     }
-
     //setter
     public void setLightSunflower(){
         image = new ImageIcon("images\\Gifs\\sun_flower.gif").getImage();
     }
-
     //setter
     public void setDarkSunflower(){
         image = new ImageIcon("images\\Gifs\\sunflower.gif").getImage();
     }
 
-    //getter
+    public void setGif(){
+
+        if(sun == null)setLightSunflower();
+        else setDarkSunflower();
+
+        if(getHealth() <= 30){
+            setDyingSunflower();
+        }
+    }
+    //setter
     public Sun getSun() {
         return sun;
     }
-
     //setter
     public void setSun(Sun sun) {
         this.sun = sun;
     }
 }
-
