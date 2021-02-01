@@ -30,14 +30,11 @@ public class Machine extends  Element{
         else return false;
     }
 
-    //getter
     public boolean isReadyToMove() {
         return readyToMove;
     }
 
-    //setter
     public void setReadyToMove(boolean readyToMove) {
         this.readyToMove = readyToMove;
     }
 }
-

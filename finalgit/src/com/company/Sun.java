@@ -11,7 +11,6 @@ import java.io.IOException;
  */
 public class Sun extends Element{
     private final int value = 25;
-//    private final int lastingTime = 10;
 
     /**
      *
@@ -31,7 +30,4 @@ public class Sun extends Element{
         return value;
     }
 
-//    public int getLastingTime() {
-//        return lastingTime;
-//    }
 }
