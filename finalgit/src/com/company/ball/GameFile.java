@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2021
  */
 public class GameFile {
-    private static final String GAME_PATH = "./games/";
+    private static final String GAME_PATH = "games/";
 
     //It's a static initializer. It's executed when the class is loaded.
     static {
@@ -44,7 +44,7 @@ public class GameFile {
     }
 
     public static void objectFileWriter(GameModel gameModel){
-        String fileName = gameModel.getUserName();
+        String fileName = GAME_PATH + gameModel.getUserName();
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(fileName);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
