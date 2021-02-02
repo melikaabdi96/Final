@@ -15,7 +15,7 @@ import java.io.IOException;
  * shows setting options when player presses the setting button
  *
  *
- * 
+ *
  * @author Melika - Morvarid
  * @since 2021
  */

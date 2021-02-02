@@ -34,22 +34,22 @@ public class GameModel implements Serializable {
      * @return result of the game
      */
     public String setResult(){
-        String result;
+        String result = "";
         for (GameState gameState:gameStates){
             if(gameState.isGameOver() == true){
                 losses +=1;
                 scores -=(gameState.getType().equals(GameState.gameType.NORMAL)? 1 : 3);
-                result = "losses:'" + String.valueOf(losses) + '\'' + "score:'" + String.valueOf(scores) + '\'';
-                return result;
+                result += "losses:'" + String.valueOf(losses) + '\'' + "score:'" + String.valueOf(scores) + '\n';
+
             }
             else if(gameState.isEndOfGame() == true){
                 wins +=1;
                 scores +=(gameState.getType() == GameState.gameType.NORMAL ? 3 : 10);
-                result = "winnings:'" + String.valueOf(wins) + '\'' + "score:'" + String.valueOf(scores) + '\'';
-                return result;
+                result += "winnings:'" + String.valueOf(wins) + '\'' + "score:'" + String.valueOf(scores) + '\n';
+
             }
         }
-        return null;
+        return result;
     }
 
    /* public String setLosses(){
