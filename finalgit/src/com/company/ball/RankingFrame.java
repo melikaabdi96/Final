@@ -12,7 +12,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+
 /**
  * shows ranking list when player presses the ranking button
  *
@@ -91,8 +95,24 @@ public class RankingFrame {
 */
         rankingFrame = new JFrame();
         rankingPanel = new JPanel(new BorderLayout());
-        initGameList();
+        //gameTabbedPane = new JTabbedPane();
+
+        //rankingPanel.add(gameTabbedPane);
+
+        // rankingFrame.add(gameTabbedPane, BorderLayout.CENTER);
+
+
+
         initTabbedPane();
+        JTextArea textPanel = new JTextArea();
+        textPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        gameTabbedPane.addTab("Tab ", textPanel);
+        initGameList();
+        //initPage();
+
+
+
+
 
         rankingFrame.add(rankingPanel);
         rankingFrame.setSize(1000, 800);
@@ -133,7 +153,7 @@ public class RankingFrame {
     }
     private void initTabbedPane() {
         gameTabbedPane = new JTabbedPane();
-        rankingFrame.add(gameTabbedPane, BorderLayout.CENTER);
+        rankingPanel.add(gameTabbedPane, BorderLayout.CENTER);
     }
 
     /**
@@ -144,10 +164,11 @@ public class RankingFrame {
         existPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         existPanel.setText(content);
         int tabIndex = gameTabbedPane.getTabCount() + 1;
-        gameTabbedPane.addTab("class" + tabIndex, existPanel);
+        gameTabbedPane.addTab("player" + tabIndex, existPanel);
         gameTabbedPane.setSelectedIndex(tabIndex - 1);
     }
     public  GameState getState(){
         return gameState;
     }
+
 }
