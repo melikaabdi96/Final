@@ -65,8 +65,8 @@ public class PauseMenu {
                     String playerName = gameState.getPlayerName();
                     GameModel gameModel = new GameModel(playerName);
                     GameFile.objectFileWriter(gameModel);
-            } catch (Exception ex){
-                ex.printStackTrace();}
+                } catch (Exception ex){
+                    ex.printStackTrace();}
             }
         });
 
