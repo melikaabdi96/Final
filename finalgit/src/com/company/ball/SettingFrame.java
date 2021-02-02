@@ -14,6 +14,8 @@ import java.io.IOException;
 /**
  * shows setting options when player presses the setting button
  *
+ *
+ * 
  * @author Melika - Morvarid
  * @since 2021
  */
@@ -129,7 +131,7 @@ public class SettingFrame {
         settingFrame.setSize(1000, 800);
         settingFrame.setVisible(true);
         settingFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-       // return gameState;
+        // return gameState;
         this.gameState = gameState;
         setState(gameState);
 
