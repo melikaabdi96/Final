@@ -11,6 +11,7 @@ import java.io.*;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 import static sun.swing.MenuItemLayoutHelper.max;
 
@@ -79,7 +80,7 @@ public class GameState implements Serializable{
         type = gameType.NORMAL;  // defualt type is NORMAL
         //
         mouseHandler = new MouseHandler();
-
+        playerName = "test";
         playersSuns = 550;
         gameStartTime = System.currentTimeMillis();
         setMachines();
@@ -121,7 +122,8 @@ public class GameState implements Serializable{
             removeDeadPlants();
         }
         numberOfFrame++;
-        setResultOfGame();
+        //setResultOfGame();
+       // addToFile();
     }
     private void SetGif(){
         for (int i = 0; i < 5; i++) {
@@ -215,7 +217,7 @@ public class GameState implements Serializable{
                 itr.remove();
             }
             if(z.getHealth() <= 10)z.setDyingGif();
-        }
+    }
     }
     private void attack(){
         Iterator<Zombie>  itr = zombies.iterator();
@@ -248,7 +250,7 @@ public class GameState implements Serializable{
                     if (elements[i][j] != null) {
 
                         if(elements[i][j].getRow() == z.getRow() + 1 && Math.pow(((int) elements[i][j].getX()-(int) z.getX()) , 2) < 2500 ){
-                            // System.out.println(";)");
+                           // System.out.println(";)");
                             z.setStoped(true);
                             z.setAttackTime(System.currentTimeMillis());
                             if(numberOfFrame % 30 == 0 ) { // each sec = 30 frame
@@ -278,7 +280,7 @@ public class GameState implements Serializable{
     }
 
     public void handleplants() throws IOException {
-        long producingSunPeriod = ( type == gameType.NORMAL? 2000 : 25000);// 20 * 30 = 600 , 25 * 30 = 750
+        long producingSunPeriod = ( type == gameType.NORMAL? 2000 : 2500);// 20 * 30 = 600 , 25 * 30 = 750
         long lastingTimeForSun = 10000;// suppose = 10 sec
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 9; j++) {
@@ -287,8 +289,8 @@ public class GameState implements Serializable{
                         if( ((Sunflower)elements[i][j]).getSun() == null){
                             if ((System.currentTimeMillis() - elements[i][j].getStartTime()) %  producingSunPeriod == 0) {
 
-                                ((Sunflower)elements[i][j]).setSun(new Sun((int)elements[i][j].getX() + 20, elements[i][j].getY() + 40));
-                                elements[i][j].setStartTime(System.currentTimeMillis());
+                                    ((Sunflower)elements[i][j]).setSun(new Sun((int)elements[i][j].getX() + 20, elements[i][j].getY() + 40));
+                                    elements[i][j].setStartTime(System.currentTimeMillis());
                             }
                         }else {
                             if( ((Sunflower)elements[i][j]).getSun().getStartTime() - System.currentTimeMillis() > lastingTimeForSun){
@@ -509,7 +511,7 @@ public class GameState implements Serializable{
     }
 
 
-    private void setResultOfGame(){
+    /*private void setResultOfGame(){
         if(gameOver){
             numberOfGameOvers +=1;
             scores -=(type == gameType.NORMAL ? 1 : 3);
@@ -519,13 +521,13 @@ public class GameState implements Serializable{
             scores +=(type == gameType.NORMAL ? 3 : 10);
         }
 
-    }
+    }*/
 
     private void explosion(){
         Iterator<CherryBomb> cIter = cherryBombs.iterator();
         while (cIter.hasNext()) {
             CherryBomb c = cIter.next();
-            if ( numberOfFrame - c.getNumberOfFrame() == 30) {
+             if ( numberOfFrame - c.getNumberOfFrame() == 30) {
                 for(Zombie z : zombies){
                     if (( Math.pow(z.getX() - c.getX(),2 )+ Math.pow(z.getY() - c.getY(),2)) < 40000 ) {
                         z.setAlive(false);
@@ -550,11 +552,11 @@ public class GameState implements Serializable{
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 9; j++) {
                 if (elements[i][j] != null  && elements[i][j] instanceof Pea){
-                    Iterator<Bullet> Iter =((Pea)elements[i][j]).getBullets().iterator();
-                    while (Iter.hasNext()) {
-                        Bullet b = Iter.next();
-                        b.setStoped(tf);
-                    }
+                        Iterator<Bullet> Iter =((Pea)elements[i][j]).getBullets().iterator();
+                        while (Iter.hasNext()) {
+                            Bullet b = Iter.next();
+                            b.setStoped(tf);
+                        }
                 }
             }
         }
@@ -573,7 +575,7 @@ public class GameState implements Serializable{
     /**
      * The mouse handler.
      */
-    class MouseHandler extends MouseAdapter {
+    class MouseHandler extends MouseAdapter implements Serializable {
         @Override
         public void mouseClicked(MouseEvent e) {
 
@@ -635,15 +637,14 @@ public class GameState implements Serializable{
             mouseY = e.getY();
         }
     }
-    public void addToFile(){
-        String studentDir = "C:\\Users\\Movarid\\Desktop\\finalProject\\games";
-        try(FileOutputStream fileOutputStream = new FileOutputStream(studentDir + File.separator+this.playerName)) {
+    /*public void addToFile(){
+        try(FileOutputStream fileOutputStream = new FileOutputStream("games" + File.separator+this.playerName)) {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public ArrayList<Zombie> getZombies(){
         return zombies;
@@ -704,9 +705,23 @@ public class GameState implements Serializable{
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
+   public void setPlayerName(String playerName) {
+        // delete previous version
+        File[] list = new File("games").listFiles();
+        assert list != null;
+        for(File file : list){
+            if(Objects.equals(file.getName(), playerName)){
+                try {
+                    file.delete();
+                }catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         this.playerName = playerName;
-        addToFile();
+       // addToFile();
     }
     public GameState.gameType getType() {
         return type;
@@ -743,31 +758,48 @@ public class GameState implements Serializable{
         elements[row][column] = element;
     }
 
-    public int getScores() {
+   /* public int getScores() {
         return scores;
     }
 
     public void setScores(int scores) {
         this.scores = scores;
-    }
+    }*/
 
-    public int getNumberOfWinings() {
+   /* public int getNumberOfWinings() {
         return numberOfWinings;
-    }
+    }*/
 
-    public void setNumberOfWinings(int numberOfWinings) {
+   /* public void setNumberOfWinings(int numberOfWinings) {
         this.numberOfWinings = numberOfWinings;
-    }
+    }*/
 
-    public int getNumberOfGameOvers() {
+   /* public int getNumberOfGameOvers() {
         return numberOfGameOvers;
-    }
+    }*/
 
-    public void setNumberOfGameOvers(int numberOfGameOvers) {
+  /*  public void setNumberOfGameOvers(int numberOfGameOvers) {
         this.numberOfGameOvers = numberOfGameOvers;
+    }*/
+
+    public boolean isGameOver() {
+        return gameOver;
     }
 
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
 
+    public boolean isEndOfGame() {
+        return endOfGame;
+    }
 
+    public void setEndOfGame(boolean endOfGame) {
+        this.endOfGame = endOfGame;
+    }
+
+    public void setStopManu(boolean stopManu){
+        this.stopManu = stopManu;
+    }
 }
 
